@@ -1,0 +1,9 @@
+node_modules/
+uploads/*
+!uploads/.gitkeep
+.env
+*.log
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
