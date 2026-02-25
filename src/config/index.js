@@ -20,7 +20,7 @@ const config = {
 
   // ─── Python Engine ───────────────────────────────────────
   PYTHON_SCRIPT: path.join(__dirname, '..', '..', 'python', 'face_measurement_engine.py'),
-  PYTHON_EXECUTABLE: process.env.PYTHON_PATH ? path.resolve(process.env.PYTHON_PATH) : 'python',
+  PYTHON_EXECUTABLE: process.env.FACE_PYTHON || process.env.PYTHON_PATH || 'python',
   PYTHON_TIMEOUT: 120000, // 120 seconds
 
   // ─── Calibration ─────────────────────────────────────────

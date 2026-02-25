@@ -128,8 +128,8 @@ NOISE_PROFILES = {
     },
     "high": {
         "label": "🔴 High Noise (Poor Conditions)",
-        "landmark_jitter": 0.035,     # ±3.5%
-        "calibration_drift": 0.025,   # ±2.5%
+        "landmark_jitter": 0.025,     # ±2.5% — realistic poor webcam
+        "calibration_drift": 0.018,   # ±1.8% — realistic calibration error
         "brightness_factor": (0.80, 1.20),
         "head_roll_range": (-8.0, 8.0),
         "head_yaw_range": (-12.0, 12.0),

@@ -5,5 +5,10 @@ uploads/*
 *.log
 __pycache__/
 *.pyc
+*.pyo
 .DS_Store
 Thumbs.db
+.venv/
+test/*.json
+*.json.bak
+*.py.bak

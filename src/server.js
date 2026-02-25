@@ -29,7 +29,6 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const path = require('path');
 const fs = require('fs');
 
 const config = require('./config');
@@ -93,9 +92,6 @@ app.get('/api', (req, res) => {
     });
 });
 
-// Serve static files from public directory
-app.use(express.static(path.join(__dirname, '..', 'public')));
-
 // 404 handler
 app.use((req, res) => {
     console.warn(`[404] ${req.method} ${req.originalUrl}`);
@@ -118,18 +114,16 @@ const server = app.listen(config.PORT, config.HOST, () => {
     console.log('');
     console.log('╔══════════════════════════════════════════════════════╗');
     console.log('║                                                      ║');
-    console.log('║   🧠 FACIAL MEASUREMENT API SERVER                   ║');
+    console.log('║   🧠 FACIAL MEASUREMENT API  —  Backend Only         ║');
     console.log('║                                                      ║');
-    console.log(`║   🌐 Running on: http://${config.HOST}:${config.PORT}        ║`);
-    console.log(`║   📁 Uploads:    ${config.UPLOAD_DIR.substring(0, 30)}...  ║`);
-    console.log(`║   🐍 Python:     ${config.PYTHON_EXECUTABLE}                    ║`);
+    console.log(`║   🌐 http://${config.HOST}:${config.PORT}                         ║`);
+    console.log(`║   🐍 Python: ${config.PYTHON_EXECUTABLE.slice(-40).padEnd(40)} ║`);
     console.log('║                                                      ║');
-    console.log('║   Endpoints:                                         ║');
-    console.log('║   POST /api/measure          → Single measurement    ║');
-    console.log('║   POST /api/measure/detailed  → Full details         ║');
-    console.log('║   POST /api/measure/multi     → Multi-frame avg.     ║');
-    console.log('║   GET  /api/health            → Health check         ║');
-    console.log('║   GET  /api/health/detailed   → System status        ║');
+    console.log('║   POST  /api/measure           Single measurement    ║');
+    console.log('║   POST  /api/measure/detailed  Full details          ║');
+    console.log('║   POST  /api/measure/multi     Multi-frame average   ║');
+    console.log('║   GET   /api/health            Health check          ║');
+    console.log('║   GET   /api/health/detailed   System status         ║');
     console.log('║                                                      ║');
     console.log('╚══════════════════════════════════════════════════════╝');
     console.log('');

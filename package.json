@@ -5,9 +5,12 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "node --watch src/server.js",
+    "dev": "nodemon src/server.js",
     "test": "node test/test-api.js",
-    "setup-python": "pip install mediapipe opencv-python numpy"
+    "test:accuracy": ".venv/bin/python test/accuracy_test_100.py",
+    "test:pd": ".venv/bin/python test/pd_3way_comparison.py",
+    "setup-python": ".venv/bin/pip install -r python/requirements.txt",
+    "setup-venv": "python3 -m venv .venv && .venv/bin/pip install --upgrade pip && .venv/bin/pip install -r python/requirements.txt"
   },
   "keywords": [
     "facial-measurement",
@@ -25,5 +28,8 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }

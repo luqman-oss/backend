@@ -1,0 +1,9 @@
+{
+  "watch": ["src/", "python/"],
+  "ext": "js,json,py",
+  "ignore": ["uploads/", "test/", "node_modules/", ".venv/"],
+  "delay": 500,
+  "env": {
+    "NODE_ENV": "development"
+  }
+}
