@@ -16,7 +16,7 @@ router.get('/measure', (req, res) => {
   const { shop, product } = req.query;
   
   // Redirect to the working widget URL
-  res.redirect('https://mirian-ecospecific-ann.ngrok-free.dev');
+  res.redirect('https://backend-production-837c.up.railway.app');
 });
 
 /**
