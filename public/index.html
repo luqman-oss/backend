@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FaceScan AI — Facial Measurement</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!--  HEADER                                            -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="logo">🧠 FaceScan <span class="logo-ai">AI</span></h1>
+            <p class="tagline">Real-Time 3D Facial Measurement</p>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!--  MAIN CONTAINER                                    -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <main class="main">
+        <!-- LEFT PANEL — Input -->
+        <section class="panel glass input-panel">
+            <h2 class="panel-title">📸 Capture</h2>
+
+            <!-- Camera Preview -->
+            <div class="camera-container" id="cameraContainer">
+                <video id="cameraPreview" autoplay playsinline muted></video>
+                <canvas id="cameraCanvas" style="display:none;"></canvas>
+                <canvas id="faceDetectionCanvas"></canvas>
+                <div class="camera-overlay" id="cameraOverlay">
+                    <div class="face-guide"></div>
+                    <p>Position your face within the guide</p>
+                </div>
+                <div class="camera-placeholder" id="cameraPlaceholder">
+                    <span class="placeholder-icon">📷</span>
+                    <p>Camera not started</p>
+                </div>
+            </div>
+
+            <!-- Camera Controls -->
+            <div class="camera-controls">
+                <button id="btnStartCamera" class="btn btn-primary">
+                    <span class="btn-icon">🎥</span> Start Camera
+                </button>
+                <button id="btnCapture" class="btn btn-success" disabled>
+                    <span class="btn-icon">📸</span> Capture & Measure
+                </button>
+                <button id="btnStopCamera" class="btn btn-danger" disabled>
+                    <span class="btn-icon">⏹</span> Stop
+                </button>
+            </div>
+
+            <!-- Divider -->
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <!-- Drag & Drop Upload -->
+            <div class="drop-zone" id="dropZone">
+                <span class="drop-icon">📁</span>
+                <p class="drop-text">Drag & drop a face photo here</p>
+                <p class="drop-subtext">or click to browse</p>
+                <input type="file" id="fileInput" accept="image/*" hidden>
+            </div>
+
+            <!-- Preview of selected/captured image -->
+            <div class="preview-container" id="previewContainer" style="display:none;">
+                <img id="previewImage" alt="Preview">
+                <div class="preview-actions">
+                    <button id="btnMeasure" class="btn btn-primary">
+                        <span class="btn-icon">📐</span> Measure
+                    </button>
+                    <button id="btnClear" class="btn btn-secondary">
+                        <span class="btn-icon">🗑️</span> Clear
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- RIGHT PANEL — Results -->
+        <section class="panel glass results-panel">
+            <h2 class="panel-title">📐 Measurements</h2>
+
+            <!-- Loading State -->
+            <div class="loading" id="loadingState" style="display:none;">
+                <div class="spinner"></div>
+                <p>Analyzing facial landmarks...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState">
+                <span class="empty-icon">📏</span>
+                <p>Capture or upload a face photo to get measurements</p>
+            </div>
+
+            <!-- Error State -->
+            <div class="error-state" id="errorState" style="display:none;">
+                <span class="error-icon">⚠️</span>
+                <p id="errorMessage"></p>
+                <button id="btnRetry" class="btn btn-secondary">Try Again</button>
+            </div>
+
+            <!-- Results -->
+            <div class="results" id="resultsState" style="display:none;">
+                <!-- Confidence Badge -->
+                <div class="confidence-badge" id="confidenceBadge">
+                    <span class="confidence-label">Confidence</span>
+                    <span class="confidence-value" id="confidenceValue">—</span>
+                </div>
+
+                <!-- Measurement Cards -->
+                <div class="measurement-grid" id="measurementGrid">
+                    <!-- Dynamically populated -->
+                </div>
+
+                <!-- Metadata -->
+                <div class="metadata glass-inner" id="metadataSection">
+                    <h3>Details</h3>
+                    <div class="metadata-grid" id="metadataGrid">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!--  FOOTER                                            -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <footer class="footer">
+        <p>FaceScan AI — Powered by MediaPipe Face Mesh (478 landmarks) &amp; Iris Calibration</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

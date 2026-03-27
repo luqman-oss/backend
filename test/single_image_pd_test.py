@@ -148,8 +148,8 @@ print("|  %-30s %12s  |" % ("Measurement", "Value (mm)"))
 print("|" + "-" * W + "|")
 meas_rows = [
     ("Pupillary Distance (total)",  our_pd),
-    ("  PD Left (nose→L pupil)",    our_pd_l),
-    ("  PD Right (nose→R pupil)",   our_pd_r),
+    ("  PD Left (nose->L pupil)",    our_pd_l),
+    ("  PD Right (nose->R pupil)",   our_pd_r),
     ("Face Width",                  our_fw),
     ("Face Height",                 our_fh),
     ("Eye Width",                   our_ew),

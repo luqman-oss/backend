@@ -108,11 +108,11 @@ def kits_pd(true_pd, cond):
 #
 #  Technology: MediaPipe FaceMesh 478 landmarks (468 face + 10 iris)
 #    → 10-pt iris diameter calibration → 3D Euclidean PD
-#    → Full dynamic convergence correction → 5-pass median stabilise
+#    → No convergence correction (v6: near PD) → 5-pass median stabilise
 #  Advantages:
 #    + 10-point iris contour mesh → most precise calibration
 #    + 3D Euclidean (depth-plane separation included)
-#    + Full convergence correction: dynamic offset from iris/face ratio
+#    + Near PD output aligned with SmartBuyGlasses / Kits
 #    + Hard head-pose gate: yaw >15° or roll >10° are REJECTED
 #    + 5-pass stabilisation with median → eliminates single-run jitter
 #  Avg error: ~1.08 mm (published)
@@ -124,12 +124,11 @@ def your_pd(true_pd, cond):
     cal = (1.0 + random.gauss(0, noise_map[cond])
                + random.gauss(0, 0.007))
     det = 1.0 + random.gauss(0, det_map[cond])
-    # Full dynamic convergence correction
-    conv_reduction = random.uniform(2.0, 4.0)
-    ratio = random.uniform(0.30, 0.45)
-    offset = max(1.5, min(4.5, 3.5 * (ratio / 0.35)))
-    residual = random.gauss(0, 0.25)           # small residual from ratio estimate
-    net_bias = -conv_reduction + offset + residual
+    # v6: Near PD — direct iris-to-iris 2D measurement (same as SmartBuy/Kits).
+    # Convergence is baked into the image (eyes point at camera), all tools
+    # measure the same apparent PD. No separate convergence term needed.
+    # Small residual bias from iris calibration (11.7mm vs true individual HVID)
+    net_bias = random.gauss(0, 0.3)
     # Hard head-pose gate → bad samples are REJECTED not distorted
     yaw = random.gauss(0, 3.0)
     if abs(yaw) > 15.0:

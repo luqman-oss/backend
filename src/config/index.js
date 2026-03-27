@@ -21,7 +21,7 @@ const config = {
   // ─── Python Engine ───────────────────────────────────────
   PYTHON_SCRIPT: path.join(__dirname, '..', '..', 'python', 'face_measurement_engine.py'),
   PYTHON_EXECUTABLE: process.env.FACE_PYTHON || process.env.PYTHON_PATH || 'python',
-  PYTHON_TIMEOUT: 120000, // 120 seconds
+  PYTHON_TIMEOUT: 60000, // 60 seconds (model now loads once, much faster)
 
   // ─── Calibration ─────────────────────────────────────────
   // Credit card width in mm (ISO/IEC 7810 standard)

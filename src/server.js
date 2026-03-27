@@ -26,6 +26,7 @@
 
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -35,6 +36,8 @@ const config = require('./config');
 const { errorHandler } = require('./middleware/errorHandler');
 const measureRoutes = require('./routes/measureRoutes');
 const healthRoutes = require('./routes/healthRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const widgetRoutes = require('./routes/widgetRoutes');
 
 // ═══════════════════════════════════════════════════════════════
 //  INITIALIZATION
@@ -82,6 +85,8 @@ app.use(express.urlencoded({ extended: true }));
 // Mount API routes BEFORE static files to ensure precedence
 app.use('/api/measure', measureRoutes);
 app.use('/api/health', healthRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/widget', widgetRoutes);
 
 // API info
 app.get('/api', (req, res) => {
@@ -90,6 +95,15 @@ app.get('/api', (req, res) => {
         version: '1.0.0',
         description: 'AI-Based Real-Time 3D Facial Measurement System',
     });
+});
+
+// Static files — serve frontend UI from public/
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
+// SPA fallback — serve index.html for non-API routes
+app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
 // 404 handler
@@ -122,6 +136,8 @@ const server = app.listen(config.PORT, config.HOST, () => {
     console.log('║   POST  /api/measure           Single measurement    ║');
     console.log('║   POST  /api/measure/detailed  Full details          ║');
     console.log('║   POST  /api/measure/multi     Multi-frame average   ║');
+    console.log('║   POST  /api/cart/add-measurement  Cart integration  ║');
+    console.log('║   GET   /api/widget/measure    Widget iframe        ║');
     console.log('║   GET   /api/health            Health check          ║');
     console.log('║   GET   /api/health/detailed   System status         ║');
     console.log('║                                                      ║');
@@ -130,8 +146,11 @@ const server = app.listen(config.PORT, config.HOST, () => {
 });
 
 // Graceful shutdown
+const pythonBridge = require('./services/pythonBridge');
+
 process.on('SIGTERM', () => {
     console.log('[Server] SIGTERM received. Shutting down gracefully...');
+    pythonBridge.shutdown();
     server.close(() => {
         console.log('[Server] Server closed.');
         process.exit(0);
@@ -140,6 +159,7 @@ process.on('SIGTERM', () => {
 
 process.on('SIGINT', () => {
     console.log('[Server] SIGINT received. Shutting down...');
+    pythonBridge.shutdown();
     server.close(() => {
         process.exit(0);
     });
