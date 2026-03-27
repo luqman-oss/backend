@@ -59,6 +59,8 @@ if (!fs.existsSync(config.UPLOAD_DIR)) {
 app.use(helmet({
     crossOriginResourcePolicy: { policy: 'cross-origin' },
     contentSecurityPolicy: false,
+    frameGuard: false,  // Allow iframe embedding
+    hsts: false,        // Railway handles HTTPS
 }));
 
 // CORS
